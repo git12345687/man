@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>โปรแกรมคำนวณแคลอรี่ที่ต้องการต่อวัน</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=80') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Kanit', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        .container {
+            background: rgba(255,255,255,0.96);
+            max-width: 420px;
+            margin: 48px auto 0 auto;
+            border-radius: 24px;
+            box-shadow: 0 12px 36px 0 rgba(0,0,0,0.22), 0 1.5px 8px 0 rgba(255,126,95,0.08);
+            padding: 38px 32px 28px 32px;
+            backdrop-filter: blur(2px);
+            position: relative;
+        }
+        .container::before {
+            content: "";
+            position: absolute;
+            left: 24px; top: 24px;
+            width: 48px; height: 48px;
+            background: url('https://cdn-icons-png.flaticon.com/512/1048/1048953.png') no-repeat center center/contain;
+            opacity: 0.18;
+            z-index: 0;
+        }
+        h1 {
+            text-align: center;
+            color: #ff7e5f;
+            margin-bottom: 22px;
+            font-size: 2em;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 8px #fff8;
+        }
+        form {
+            z-index: 1;
+            position: relative;
+        }
+        label {
+            font-size: 1.08em;
+            color: #444;
+            font-weight: 500;
+            margin-bottom: 6px;
+            display: block;
+        }
+        .input-group {
+            position: relative;
+            margin-bottom: 22px;
+            display: flex;
+            justify-content: center;
+        }
+        .input-group i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #ff7e5f;
+            font-size: 1.2em;
+            opacity: 0.7;
+        }
+        input[type="number"] {
+            width: 60%;
+            min-width: 120px;
+            max-width: 200px;
+            margin: 6px auto 0 auto;
+            display: block;
+            padding: 12px 12px 12px 38px;
+            border: 1.5px solid #ffb199;
+            border-radius: 10px;
+            font-size: 1.08em;
+            background: #fffdfa;
+            transition: border 0.2s, box-shadow 0.2s;
+            box-shadow: 0 1.5px 8px 0 rgba(255,126,95,0.06);
+        }
+        input[type="number"]:focus {
+            border: 2px solid #ff7e5f;
+            outline: none;
+            box-shadow: 0 2px 12px 0 rgba(255,126,95,0.13);
+            background: #fff7f2;
+        }
+        button {
+            width: 100%;
+            background: linear-gradient(90deg, #ff7e5f 0%, #feb47b 100%);
+            color: #fff;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 1.15em;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 2px 8px 0 rgba(255,126,95,0.13);
+            transition: background 0.2s, transform 0.1s;
+            margin-top: 8px;
+            letter-spacing: 0.5px;
+        }
+        button:hover {
+            background: linear-gradient(90deg, #feb47b 0%, #ff7e5f 100%);
+            transform: translateY(-2px) scale(1.03);
+        }
+        .result {
+            margin-top: 26px;
+            background: linear-gradient(90deg, #fff6e3 60%, #ffe5d0 100%);
+            border-radius: 10px;
+            padding: 20px 12px;
+            text-align: center;
+            font-size: 1.22em;
+            color: #d35400;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(255,126,95,0.08);
+            border: 1.5px solid #ffb199;
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        .advice {
+            margin-top: 36px;
+            background: rgba(247,250,255,0.98);
+            border-radius: 14px;
+            padding: 20px 18px 18px 18px;
+            color: #2d3436;
+            font-size: 1.04em;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border-left: 5px solid #ffb199;
+        }
+        .advice h2 {
+            color: #ff7e5f;
+            font-size: 1.13em;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        ul {
+            margin: 0 0 0 18px;
+            padding: 0;
+        }
+        ul li {
+            margin-bottom: 7px;
+            line-height: 1.6;
+        }
+        @media (max-width: 500px) {
+            .container {
+                max-width: 98vw;
+                padding: 18px 4vw 18px 4vw;
+            }
+            h1 { font-size: 1.3em; }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fa-solid fa-dumbbell" style="color:#ff7e5f;margin-right:8px;"></i>คำนวณแคลอรี่ที่ต้องการต่อวัน</h1>
+        <form id="calorieForm" onsubmit="calculateCalories(event)">
+            <label for="weight">น้ำหนักตัว (กิโลกรัม):</label>
+            <div class="input-group">
+                <i class="fa-solid fa-weight-scale"></i>
+                <input type="number" id="weight" name="weight" min="1" required placeholder="กรอกน้ำหนักของคุณ">
+            </div>
+            <button type="submit"><i class="fa-solid fa-calculator"></i> คำนวณ</button>
+        </form>
+        <div id="result" class="result" style="display:none;"></div>
+        <div class="advice">
+            <h2><i class="fa-solid fa-heart-pulse"></i> คำแนะนำเพื่อสุขภาพที่ดี</h2>
+            <ul>
+                <li><b>การกินอาหาร:</b> เลือกกินอาหารให้ครบ 5 หมู่ เน้นผัก ผลไม้ โปรตีนไขมันดี และดื่มน้ำให้เพียงพอ</li>
+                <li><b>การออกกำลังกาย:</b> ควรออกกำลังกายอย่างน้อย 3-5 วันต่อสัปดาห์ ครั้งละ 30 นาทีขึ้นไป</li>
+                <li><b>การนอนหลับพักผ่อน:</b> ควรนอนหลับให้ได้ 7-9 ชั่วโมงต่อคืน เพื่อให้ร่างกายฟื้นฟูอย่างเต็มที่</li>
+                <li><b>หลีกเลี่ยง:</b> อาหารหวานจัด มันจัด เค็มจัด และเครื่องดื่มแอลกอฮอล์</li>
+            </ul>
+        </div>
+    </div>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        async function calculateCalories(event) {
+            event.preventDefault();
+            const weight = parseFloat(document.getElementById('weight').value);
+            if (isNaN(weight) || weight <= 0) {
+                document.getElementById('result').style.display = 'none';
+                return;
+            }
+            const calories = weight * 30;
+
+            // เรียก Gemini AI API (รุ่น 2.0-flash)
+            const apiKey = "AIzaSyBWQGNodrH-4dYt8UvPuP1e0RhyGD1s_X8";
+            const prompt = `น้ำหนักตัว ${weight} กิโลกรัม ต้องการพลังงาน ${calories} กิโลแคลอรี่/วัน ช่วยแนะนำเมนูอาหารและแนวทางสุขภาพที่เหมาะสมในแต่ละวันให้หน่อย (ตอบเป็นภาษาไทย)`;
+
+            document.getElementById('result').innerHTML = `ผลลัพธ์: ${calories.toLocaleString()} กิโลแคลอรี่/วัน<br><span style="color:#888;">กำลังขอคำแนะนำจาก AI...</span>`;
+            document.getElementById('result').style.display = 'block';
+
+            try {
+                const response = await axios.post(
+                    "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + apiKey,
+                    {
+                        contents: [
+                            { parts: [{ text: prompt }] }
+                        ]
+                    }
+                );
+                const aiText = response.data.candidates?.[0]?.content?.parts?.[0]?.text || "ไม่สามารถให้คำแนะนำได้ในขณะนี้";
+                document.getElementById('result').innerHTML = 
+                    `ผลลัพธ์: ${calories.toLocaleString()} กิโลแคลอรี่/วัน<br><br><b>คำแนะนำจาก Gemini AI:</b><br>${aiText}`;
+            } catch (e) {
+                document.getElementById('result').innerHTML = 
+                    `ผลลัพธ์: ${calories.toLocaleString()} กิโลแคลอรี่/วัน<br><span style="color:red;">เกิดข้อผิดพลาดในการเชื่อมต่อกับ AI</span>`;
+            }
+        }
+    </script>
+</body>
+</html>
